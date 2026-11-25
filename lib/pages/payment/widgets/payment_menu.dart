@@ -19,7 +19,7 @@ class PaymentMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: onTap,
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 15),
         padding: const EdgeInsets.symmetric(horizontal: 20),
