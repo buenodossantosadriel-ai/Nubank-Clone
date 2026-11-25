@@ -5,19 +5,6 @@ plugins {
     id "dev.flutter.flutter-gradle-plugin"
 }
 
-// Release signing is optional until a private release keystore is configured.
-// Supply these values through the CI environment; never commit the keystore or passwords.
-def releaseKeystorePath = System.getenv("ANDROID_KEYSTORE_PATH")
-def releaseKeystorePassword = System.getenv("ANDROID_KEYSTORE_PASSWORD")
-def releaseKeyAlias = System.getenv("ANDROID_KEY_ALIAS")
-def releaseKeyPassword = System.getenv("ANDROID_KEY_PASSWORD")
-def hasReleaseSigning = [
-    releaseKeystorePath,
-    releaseKeystorePassword,
-    releaseKeyAlias,
-    releaseKeyPassword
-].every { it != null && !it.trim().isEmpty() }
-
 android {
     namespace = "com.ricardodalarme.nubank_clone"
     compileSdk = flutter.compileSdkVersion
@@ -33,35 +20,17 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId = "com.ricardodalarme.nubank_clone"
-        // You can update these values to match your application needs.
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }
 
-    signingConfigs {
-        release {
-            if (hasReleaseSigning) {
-                storeFile = file(releaseKeystorePath)
-                storePassword = releaseKeystorePassword
-                keyAlias = releaseKeyAlias
-                keyPassword = releaseKeyPassword
-            }
-        }
-    }
-
     buildTypes {
         release {
-            // Without a private release keystore, produce an unsigned APK.
-            // Android will not install it until it is signed with a valid key.
-            if (hasReleaseSigning) {
-                signingConfig = signingConfigs.release
-            } else {
-                signingConfig = null
-            }
+            // Demo APK: use Android's automatically managed debug key for installation/testing.
+            signingConfig = signingConfigs.debug
         }
     }
 }
