@@ -17,7 +17,7 @@ class PixMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: onTap,
       child: Container(
         color: AppColors.labelButton,
         padding: const EdgeInsets.symmetric(horizontal: 20),
